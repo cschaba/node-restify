@@ -3,6 +3,12 @@ title: API Guide | restify
 markdown2extras: wiki-tables, code-friendly
 ---
 
+<style>
+.dash, #sidebar {
+	display: none;
+}
+</style>
+
 # About restify
 
 restify is a node.js module built specifically to enable you to build correct
@@ -121,10 +127,11 @@ is, it sets the Connection header to "close" and removes the "Content-Length" he
 
 See the [pre](#pre) method for more information.
 
+<a name="//apple_ref/cpp/Object/server" class="dashAnchor"><span class="dash object">server</span></a>
 ## Creating a Server
 
 Creating a server is straightforward, as you simply invoke the
-`createServer` API, which takes an options object with the options listed
+<a name="//apple_ref/cpp/Function/restify.createServer" class="dashAnchor"><span class="dash function">restify.createServer</span>`createServer`</a> API, which takes an options object with the options listed
 below (and `listen()` takes the same arguments as node's
 [http.Server.listen](http://nodejs.org/docs/latest/api/http.html#http_server_listen_port_hostname_backlog_callback)):
 
@@ -140,15 +147,15 @@ below (and `listen()` takes the same arguments as node's
     server.listen(8080);
 
 ||**Option**||**Type**||**Description**||
-||certificate||String||If you want to create an HTTPS server, pass in the path to PEM-encoded certificate and key||
-||key||String||If you want to create an HTTPS server, pass in the path to PEM-encoded certificate and key||
-||formatters||Object||Custom response formatters for `res.send()`||
-||log||Object||You can optionally pass in a [bunyan](https://github.com/trentm/node-bunyan) instance; not required||
-||name||String||By default, this will be set in the `Server` response header, default is `restify` ||
-||spdy||Object||Any options accepted by [node-spdy](https://github.com/indutny/node-spdy)||
-||version||String|Array||A default version to set for all routes||
-||handleUpgrades||Boolean||Hook the `upgrade` event from the node HTTP server, pushing `Connection: Upgrade` requests through the regular request handling chain; defaults to `false`||
-||httpsServerOptions||Object||Any options accepted by [node-https Server](http://nodejs.org/api/https.html#https_https). If provided the following restify server options will be ignored: spdy, ca, certificate, key, passphrase, rejectUnauthorized, requestCert and ciphers; however these can all be specified on httpsServerOptions.||
+||<a name="//apple_ref/cpp/Property/server.certificate" class="dashAnchor"><span class="dash property">server.certificate</span></a>certificate||String||If you want to create an HTTPS server, pass in the path to PEM-encoded certificate and key||
+||<a name="//apple_ref/cpp/Property/server.key" class="dashAnchor"><span class="dash property">server.key</span></a>key||String||If you want to create an HTTPS server, pass in the path to PEM-encoded certificate and key||
+||<a name="//apple_ref/cpp/Property/server.formatters" class="dashAnchor"><span class="dash property">server.formatters</span></a>formatters||Object||Custom response formatters for `res.send()`||
+||<a name="//apple_ref/cpp/Property/server.log" class="dashAnchor"><span class="dash property">server.log</span></a>log||Object||You can optionally pass in a [bunyan](https://github.com/trentm/node-bunyan) instance; not required||
+||<a name="//apple_ref/cpp/Property/server.name" class="dashAnchor"><span class="dash property">server.name</span></a>name||String||By default, this will be set in the `Server` response header, default is `restify` ||
+||<a name="//apple_ref/cpp/Property/server.spdy" class="dashAnchor"><span class="dash property">server.spdy</span></a>spdy||Object||Any options accepted by [node-spdy](https://github.com/indutny/node-spdy)||
+||<a name="//apple_ref/cpp/Property/server.version" class="dashAnchor"><span class="dash property">server.version</span></a>version||String|Array||A default version to set for all routes||
+||<a name="//apple_ref/cpp/Property/server.handleUpgrades" class="dashAnchor"><span class="dash property">server.handleUpgrades</span></a>handleUpgrades||Boolean||Hook the `upgrade` event from the node HTTP server, pushing `Connection: Upgrade` requests through the regular request handling chain; defaults to `false`||
+||<a name="//apple_ref/cpp/Property/server.httpsServerOptions" class="dashAnchor"><span class="dash property">server.httpsServerOptions</span></a>httpsServerOptions||Object||Any options accepted by [node-https Server](http://nodejs.org/api/https.html#https_https). If provided the following restify server options will be ignored: spdy, ca, certificate, key, passphrase, rejectUnauthorized, requestCert and ciphers; however these can all be specified on httpsServerOptions.||
 
 ## Common handlers: server.use()
 
@@ -162,12 +169,18 @@ Note that in all calls to `use()` and the routes below, you can pass
 in any combination of direct functions (`function(res, res, next)`) and
 arrays of functions (`[function(req, res, next)]`).
 
+<a name="//apple_ref/cpp/Method/server.head" class="dashAnchor"><span class="dash method">server.head(res, res, next)</span></a>
+<a name="//apple_ref/cpp/Method/server.get" class="dashAnchor"><span class="dash method">server.get(res, res, next)</span></a>
+<a name="//apple_ref/cpp/Method/server.put" class="dashAnchor"><span class="dash method">server.put(res, res, next)</span></a>
+<a name="//apple_ref/cpp/Method/server.post" class="dashAnchor"><span class="dash method">server.post(res, res, next)</span></a>
+<a name="//apple_ref/cpp/Method/server.del" class="dashAnchor"><span class="dash method">server.del(res, res, next)</span></a>
+<a name="//apple_ref/cpp/Guide/Routing" class="dashAnchor"></a>
 ## Routing
 
 restify routing, in 'basic' mode, is pretty much identical to express/sinatra,
 in that HTTP verbs are used with a parameterized resource to determine
 what chain of handlers to run.  Values associated with named
-placeholders are available in `req.params`. Note that values will be
+placeholders are available in <a name="//apple_ref/cpp/Property/req.params" class="dashAnchor"><span class="dash property">`req.params`</span></a>. Note that values will be
 URL-decoded before being passed to you.
 
      function send(req, res, next) {
@@ -261,6 +274,7 @@ Routes can also accept more than one handler function. For instance:
         }
     );
 
+<a name="//apple_ref/cpp/Method/server.router.render" class="dashAnchor"><span class="dash method">server.router.render()</span></a>
 ### Hypermedia
 
 If a parameterized route was defined with a string (not a regex), you can render it from other places in the server. This is useful to have HTTP responses that link to other resources, without having to hardcode URLs throughout the codebase. Both path and query strings parameters get URL encoded appropriately.
@@ -281,6 +295,7 @@ Which returns:
       "capital": "/cities/canberra?details=true"
     }
 
+<a name="//apple_ref/cpp/Guide/Versioned+Routes" class="dashAnchor"><span class="dash guide">Versioned Routes</span></a>
 ### Versioned Routes
 
 Most REST APIs tend to need versioning, and restify ships with support
@@ -361,6 +376,7 @@ Hitting this route:
 
 In response to the above
 
+<a name="//apple_ref/cpp/Guide/Upgrade%20Requests" class="dashAnchor"><span class="dash guilde">Upgrade Reuests</span></a>
 ## Upgrade Requests
 
 Incoming HTTP requests that contain a `Connection: Upgrade` header are treated
@@ -546,6 +562,7 @@ can also use a generic `restifyError` event which will catch errors of all types
     });
 
 
+<a name="//apple_ref/cpp/Guide/HttpError" class="dashAnchor"><span class="dash guide">HttpError</span></a>
 ### HttpError
 
 Now the obvious question is what that exactly does (in either case).
@@ -593,6 +610,7 @@ the complete list, take a look at the
 From that code above `418: I'm a teapot` would be `ImATeapotError`, as
 an example.
 
+<a name="//apple_ref/cpp/Guide/RestError" class="dashAnchor"><span class="dash guide">RestError</span></a>
 ### RestError
 
 Now, a common problem with REST APIs and HTTP is that they often end
@@ -742,13 +760,13 @@ server as if it were a "raw" node server:
 
 ## Server API
 
-### Events
+### <a name="//apple_ref/cpp/Guide/Events" class="dashAnchor"><span class="dash guide">Events</span>Events</a>
 
 Restify servers emit all the events from the node
 [http.Server](http://nodejs.org/docs/latest/api/http.html#http_class_http_server)
 and has several other events you want to listen on.
 
-##### Event: 'NotFound'
+##### <a name="//apple_ref/cpp/Event/NotFound" class="dashAnchor"><span class="dash event">NotFound</span>Event: 'NotFound'</a>
 
 `function (request, response, error, cb) {}`
 
@@ -757,7 +775,7 @@ will emit this event. Note that restify checks for listeners on this
 event, and if there are none, responds with a default 404 handler.  It
 is expected that if you listen for this event, you respond to the client.
 
-#### Event: 'MethodNotAllowed'
+#### <a name="//apple_ref/cpp/Event/MethodNotAllowed" class="dashAnchor"><span class="dash event">MethodNotAllowed</span>Event: 'MethodNotAllowed'</a>
 
 `function (request, response, error, cb) {}`
 
@@ -767,7 +785,7 @@ event. Note that restify checks for listeners on this event, and if
 there are none, responds with a default 405 handler.  It
 is expected that if you listen for this event, you respond to the client.
 
-#### Event: 'VersionNotAllowed'
+#### <a name="//apple_ref/cpp/Event/VersionNotAllowed" class="dashAnchor"><span class="dash event">VersionNotAllowed</span>Event: 'VersionNotAllowed'</a>
 
 `function (request, response, error, cb) {}`
 
@@ -777,7 +795,7 @@ event. Note that restify checks for listeners on this event, and if
 there are none, responds with a default 400 handler.  It
 is expected that if you listen for this event, you respond to the client.
 
-#### Event: UnsupportedMediaType'
+#### <a name="//apple_ref/cpp/Event/UnsupportedMediaType" class="dashAnchor"><span class="dash event">UnsupportedMediaType</span>Event: 'UnsupportedMediaType'</a>
 
 `function (request, response, error, cb) {}`
 
@@ -786,7 +804,7 @@ mismatch, restify will emit this event. Note that restify checks for listeners
 on this event, and if there are none, responds with a default 415 handler.  It
 is expected that if you listen for this event, you respond to the client.
 
-#### Event: 'after'
+#### <a name="//apple_ref/cpp/Event/after" class="dashAnchor"><span class="dash event">after</span>Event: 'after'</a>
 
 `function (request, response, route, error) {}`
 
@@ -798,7 +816,7 @@ be `null`. If you have registered your own listeners for those, this event
 will not be fired unless you invoke the `cb` argument that is provided with
 them.
 
-#### Event: 'uncaughtException'
+#### <a name="//apple_ref/cpp/Event/uncaughtException" class="dashAnchor"><span class="dash event">uncaughtException</span>Event: 'uncaughtException'</a>
 
 `function (request, response, route, error) {}`
 
@@ -813,27 +831,27 @@ here.
 A restify server has the following properties on it:
 
 ||**Name**||**Type**||**Description**||
-||name||String||name of the server||
-||version||String|Array||default version to use in all routes||
-||log||Object||[bunyan](https://github.com/trentm/node-bunyan) instance||
-||acceptable||Array(String)||list of content-types this server can respond with||
-||url||String||Once listen() is called, this will be filled in with where the server is running||
+||<a name="//apple_ref/cpp/Property/server.name" class="dashAnchor"><span class="dash property">server.name</a>name</span>||String||name of the server||
+||<a name="//apple_ref/cpp/Property/server.version" class="dashAnchor"><span class="dash property">server.version</a>version</span>||String|Array||default version to use in all routes||
+||<a name="//apple_ref/cpp/Property/server.log" class="dashAnchor"><span class="dash property">server.log</a>log</span>||Object||[bunyan](https://github.com/trentm/node-bunyan) instance||
+||<a name="//apple_ref/cpp/Property/server.acceptable" class="dashAnchor"><span class="dash property">server.acceptable</a>acceptable</span>||Array(String)||list of content-types this server can respond with||
+||<a name="//apple_ref/cpp/Property/server.url" class="dashAnchor"><span class="dash property">server.url</a>url</span>||String||Once listen() is called, this will be filled in with where the server is running||
 
 ### Other Methods
 
-#### address()
+#### <a name="//apple_ref/cpp/Method/server.address" class="dashAnchor"><span class="dash method">server.address()</span> server.address()</a>
 
 Wraps node's [address()](http://nodejs.org/docs/latest/api/net.html#net_server_address).
 
-#### listen(port, [host], [callback]) or listen(path, [callback])
+#### <a name="//apple_ref/cpp/Method/server.listen" class="dashAnchor"><span class="dash method">server.listen()</span>server.listen(port, [host], [callback]) or server.listen(path, [callback])</a>
 
 Wraps node's [listen()](http://nodejs.org/docs/latest/api/net.html#net_server_listen_path_callback).
 
-#### close()
+#### <a name="//apple_ref/cpp/Method/server.close" class="dashAnchor"><span class="dash method">server.close()</span>server.close()</a>
 
 Wraps node's [close()](http://nodejs.org/docs/latest/api/net.html#net_event_close).
 
-#### pre()
+#### <a name="//apple_ref/cpp/Method/server.pre" class="dashAnchor"><span class="dash method">server.pre()</span>server.pre()</a>
 
 Allows you to add in handlers that run *before* routing occurs. This gives you
 a hook to change request headers and the like if you need to. Note that
@@ -849,7 +867,7 @@ You can also clean up URLs before routes are matched with the built in
 
     server.pre(restify.pre.sanitizePath());
 
-#### use()
+#### <a name="//apple_ref/cpp/Method/server.use" class="dashAnchor"><span class="dash method">server.use()</span>server.use()</a>
 
 Allows you to add in handlers that run no matter what the route.
 
@@ -894,7 +912,7 @@ Here's some example code using all the shipped plugins:
     }));
     server.use(restify.conditionalRequest());
 
-### Accept Parser
+### <a name="//apple_ref/cpp/Function/restify.acceptParser" class="dashAnchor"><span class="dash function">restify.acceptParser</span>Accept Parser</a>
 
 Parses out the `Accept` header, and ensures that the server can respond to what
 the client asked for.  You almost always want to just pass in
@@ -904,7 +922,7 @@ for a non-handled type, this plugin will return an error of `406`.
 
     server.use(restify.acceptParser(server.acceptable));
 
-### Authorization Parser
+### <a name="//apple_ref/cpp/Function/restify.authorizationParser" class="dashAnchor"><span class="dash function">restify.authorizationParser</span>Authorization Parser</a>
 
     server.use(restify.authorizationParser());
 
@@ -927,7 +945,7 @@ to something like:
 is unrecognized, the only thing available in `req.authorization` will be
 `scheme` and `credentials` - it will be up to you to parse out the rest.
 
-### CORS
+### <a name="//apple_ref/cpp/Function/restify.CORS" class="dashAnchor"><span class="dash function">restify.CORS</span>CORS</a>
 
     server.use(restify.CORS());
 
@@ -944,7 +962,7 @@ a sample invocation is:
     }));
 
 
-### Date Parser
+### <a name="//apple_ref/cpp/Function/restify.dateParser" class="dashAnchor"><span class="dash function">restify.dateParser</span>Date Parser</a>
 
     server.use(restify.dateParser());
 
@@ -955,18 +973,18 @@ interpreted in seconds, to allow for clock skew.
     // Allows clock skew of 1m
     server.use(restify.dateParser(60));
 
-### QueryParser
+### <a name="//apple_ref/cpp/Function/restify.queryParser" class="dashAnchor"><span class="dash function">restify.queryParser</span>QueryParser</a>
 
     server.use(restify.queryParser());
 
 Parses the HTTP query string (i.e., `/foo?id=bar&name=mark`).  If you use this,
-the parsed content will always be available in `req.query`, additionally params
+the parsed content will always be available in <a name="//apple_ref/cpp/Property/req.query" class="dashAnchor">`req.query`</a>, additionally params
 are merged into `req.params`.  You can disable by passing in `mapParams: false`
 in the options object:
 
     server.use(restify.queryParser({ mapParams: false }));
 
-### JSONP
+### <a name="//apple_ref/cpp/Function/restify.jsonp" class="dashAnchor"><span class="dash function">restify.jsonp</span>JSONP</a>
 
 Supports checking the query string for `callback` or `jsonp` and ensuring that
 the content-type is appropriately set if JSONP params are in place.  There is
@@ -975,7 +993,7 @@ also a default `application/javascript` formatter to handle this.
 You *should* set the `queryParser` plugin to run before this, but if you don't
 this plugin will still parse the query string properly.
 
-### BodyParser
+### <a name="//apple_ref/cpp/Function/restify.bodyParser" class="dashAnchor"><span class="dash function">restify.bodyParser</span>BodyParser</a>
 
 Blocks your chain on reading and parsing the HTTP request body.  Switches on
 `Content-Type` and does the appropriate logic.  `application/json`,
@@ -1039,7 +1057,7 @@ Options:
   * `multiples` - if you want to support html5 multiple attribute in upload fields.
   * `hash` - If you want checksums calculated for incoming files, set this to either `sha1` or `md5`.
 
-### RequestLogger
+### <a name="//apple_ref/cpp/Function/restify.requestLogger" class="dashAnchor"><span class="dash function">restify.requestLogger</span>RequestLogger</a>
 
 Sets up a child [bunyan](https://github.com/trentm/node-bunyan) logger with the
 current request id filled in, along with any other parameters you define.
@@ -1063,7 +1081,7 @@ Options:
   * `headers` - A list of headers to transfer from the request to top level
     props on the log.
 
-### GzipResponse
+### <a name="//apple_ref/cpp/Function/restify.gzipResponse" class="dashAnchor"><span class="dash function">restify.gzipResponse</span>GzipResponse</a>
 
     server.use(restify.gzipResponse());
 
@@ -1076,7 +1094,7 @@ that the `content-length` header cannot be known, and so
 `transfer-encoding: chunked` will *always* be set when this is in effect.  This
 plugin has no impact if the client does not send `accept-encoding: gzip`.
 
-### Serve Static
+### <a name="//apple_ref/cpp/Function/restify.serveStatic" class="dashAnchor"><span class="dash function">restify.serveStatic</span>Serve Static</a>
 
 The serveStatic module is different than most of the other plugins, in that it
 is expected that you are going to map it to a route, as below:
@@ -1109,7 +1127,7 @@ the documentation/v1/ directory anytime a client requests `/home/`.
     }));
 
 
-### Throttle
+### <a name="//apple_ref/cpp/Function/restify.throttle" class="dashAnchor"><span class="dash function">restify.trottle</span>Throttle</a>
 
 restify ships with a fairly comprehensive implementation of
 [Token bucket](http://en.wikipedia.org/wiki/Token_bucket), with the ability to
@@ -1150,7 +1168,7 @@ Options:
 
 Note that `ip`, `xff` and `username` are XOR'd.
 
-### Request Expiry
+### <a name="//apple_ref/cpp/Function/restify.requestExpiry" class="dashAnchor"><span class="dash function">restify.requestExpiry</span>Request Expiry</a>
 
 Request Expiry can be used to throttle requests that have already exceeded
 their client timeouts. Requests can be sent with a configurable client timeout
@@ -1182,7 +1200,7 @@ uniform request distribution.  To enable this, you can pass in
 `options.tokensTable`, which is simply any Object that supports `put` and `get`
 with a `String` key, and an `Object` value.
 
-### Conditional Request Handler
+### <a name="//apple_ref/cpp/Function/restify.conditionalRequest" class="dashAnchor"><span class="dash function">restify.conditionalRequest</span>Conditional Request Handler</a>
 
     server.use(restify.conditionalRequest());
 
@@ -1215,7 +1233,7 @@ Some example usage:
       res.send('hello ' + req.params.name);
     });
 
-### Audit Logging
+### <a name="//apple_ref/cpp/Function/restify.AuditLogger" class="dashAnchor"><span class="dash function">restify.AuditLogger</span>Audit Logging</a>
 
 Audit logging is a special plugin, as you don't use it with `.use()`, but with
 the `after` event:
@@ -1318,13 +1336,15 @@ SERVER.on('auditlog', function (data) {
         //do some process with log
     });
 Log is also accumulated in the Ringbuffer object, if user choose to pass in during auditlogger construction time.
+
+<a name="//apple_ref/cpp/Object/req" class="dashAnchor"><span class="dash object">req</span></a>
 ## Request API
 
 Wraps all of the node
 [http.IncomingMessage](http://nodejs.org/api/http.html#http_http_incomingmessage)
 APIs, events and properties, plus the following.
 
-### header(key, [defaultValue])
+### <a name="//apple_ref/cpp/Method/req.header" class="dashAnchor"><span class="dash method">req.header(key, [defaultValue])</a>req.header(key, [defaultValue])
 
 Get the case-insensitive request header key, and optionally provide a
 default value (express-compliant):
@@ -1333,7 +1353,7 @@ default value (express-compliant):
     req.header('HOST');
     req.header('Accept', '*/*');
 
-### accepts(type)
+### <a name="//apple_ref/cpp/Method/req.accepts" class="dashAnchor"><span class="dash method">req.accepts(type)</a>req.accepts(type)
 
 (express-compliant)
 
@@ -1359,7 +1379,7 @@ to `text/html` using the mime lookup table.
     req.accepts('png');
     // => false
 
-### is(type)
+### <a name="//apple_ref/cpp/Method/req.is" class="dashAnchor"><span class="dash method">req.is(type)</a>req.is(type)
 
 Check if the incoming request contains the Content-Type header field,
 and it contains the give mime type.
@@ -1380,19 +1400,19 @@ and it contains the give mime type.
 Note this is almost compliant with express, but restify does not have
 all the `app.is()` callback business express does.
 
-### isSecure()
+### <a name="//apple_ref/cpp/Method/req.isSecure" class="dashAnchor"><span class="dash method">req.isSecure()</a>req.isSecure()
 
 Check if the incoming request is encrypted.
 
-### isChunked()
+### <a name="//apple_ref/cpp/Method/req.isChunked" class="dashAnchor"><span class="dash method">req.isChunked()</a>req.isChunked()
 
 Check if the incoming request is chunked.
 
-### isKeepAlive()
+### <a name="//apple_ref/cpp/Method/req.isKeepAlive" class="dashAnchor"><span class="dash method">req.isKeepAlive()</a>req.isKeepAlive()
 
 Check if the incoming request is kept alive.
 
-### log
+### <a name="//apple_ref/cpp/Method/req.log" class="dashAnchor"><span class="dash method">req.log</a>req.log
 
 Note that you can piggyback on the restify logging framework, by just using
 `req.log`.  I.e.,:
@@ -1408,24 +1428,24 @@ The advantage to doing this is that each restify `req` instance has a new
 the request id is automatically injected in, so you can easily correlate
 your high-throughput logs together.
 
-### getLogger(component)
+### <a name="//apple_ref/cpp/Method/req.getLogger" class="dashAnchor"><span class="dash method">req.getLogger(component)</a>req.getLogger(component)
 
 Shorthand to grab a new  [bunyan](https://github.com/trentm/node-bunyan)
 instance that is a child component of the one restify has:
 
     var log = req.getLogger('MyFoo');
 
-### getQuery()
+### <a name="//apple_ref/cpp/Method/req.getQuery" class="dashAnchor"><span class="dash method">req.getQuery()</a>req.getQuery()
 
 Returns the raw query string. Returns empty string if no query string is found.
 To get the parsed query object, use the `queryParser` plugin. More info can
 be found about the plugin in the [bundled plugins](#bundled-plugins) section.
 
-### time()
+### <a name="//apple_ref/cpp/Property/req.time" class="dashAnchor"><span class="dash property">req.time()</a>req.time()
 
 The time when this request arrived (ms since epoch)
 
-### startHandlerTimer(handlerName)
+### <a name="//apple_ref/cpp/Method/req.startHandlerTimer" class="dashAnchor"><span class="dash method">req.startHandlerTimer(handlerName)</a>req.startHandlerTimer(handlerName)
 
 Start the timer for a request handler. You might want to use this if you've got
 a Restify request handler in your chain that contains nested handlers.
@@ -1448,7 +1468,7 @@ a Restify request handler in your chain that contains nested handlers.
         ]...
     }
 
-### endHandlerTimer(handlerName)
+### <a name="//apple_ref/cpp/Method/req.endHandlerTimer" class="dashAnchor"><span class="dash method">req.endHandlerTimer(handlerName)</a>req.endHandlerTimer(handlerName)
 
 End the timer for a request handler. You must invoke this function if you
 called `startRequestHandler` on a handler. Otherwise the time recorded will be
@@ -1457,20 +1477,21 @@ incorrect.
 ### Properties
 
 ||**Name**||**Type**||**Description**||
-||contentLength()||Number||short hand for the header content-length||
-||contentType()||String||short hand for the header content-type||
-||href()||String||url.parse(req.url) href||
-||log||Object||bunyan logger you can piggyback on||
-||id()||String||A unique request id (x-request-id)||
-||path()||String||cleaned up URL path||
+||<a name="//apple_ref/cpp/Property/req.contentLength()" class="dashAnchor"><span class="dash property">req.contentLength</span></a>contentLength()||Number||short hand for the header content-length||
+||<a name="//apple_ref/cpp/Property/req.contentType()" class="dashAnchor"><span class="dash property">req.contentType</span></a>contentType()||String||short hand for the header content-type||
+||<a name="//apple_ref/cpp/Property/req.href()" class="dashAnchor"><span class="dash property">req.href</span></a>href()||String||url.parse(req.url) href||
+||<a name="//apple_ref/cpp/Property/req.log" class="dashAnchor"><span class="dash property">req.log</span></a>log||Object||bunyan logger you can piggyback on||
+||<a name="//apple_ref/cpp/Property/req.id()" class="dashAnchor"><span class="dash property">req.id</span></a>id()||String||A unique request id (x-request-id)||
+||<a name="//apple_ref/cpp/Property/req.path()" class="dashAnchor"><span class="dash property">req.path</span></a>path()||String||cleaned up URL path||
 
+<a name="//apple_ref/cpp/Object/res" class="dashAnchor"><span class="dash object">res</span></a>
 ## Response API
 
 Wraps all of the node
 [ServerResponse](http://nodejs.org/docs/latest/api/http.html#http.ServerResponse)
 APIs, events and properties, plus the following.
 
-### header(key, value)
+### <a name="//apple_ref/cpp/Method/res.header" class="dashAnchor"><span class="dash method">res.header(key, value)</a>res.header(key, value)
 
 Get or set the response header key.
 
@@ -1486,7 +1507,7 @@ Get or set the response header key.
     res.header('foo', new Date());
     // => Fri, 03 Feb 2012 20:09:58 GMT
 
-### charSet(type)
+### <a name="//apple_ref/cpp/Method/res.charSet" class="dashAnchor"><span class="dash method">res.charSet(type)</a>res.charSet(type)
 
 Appends the provided character set to the response's `Content-Type`.
 
@@ -1494,20 +1515,20 @@ Appends the provided character set to the response's `Content-Type`.
 
 Will change the normal json Content-Type to `application/json; charset=utf-8`.
 
-### cache([type], [options])
+### <a name="//apple_ref/cpp/Method/res.cache" class="dashAnchor"><span class="dash method">res.cache([type], [options])</a>res.cache([type], [options])
 
 Sets the cache-control header.  `type` defaults to _public_, and
 options currently only takes `maxAge`.
 
     res.cache();
 
-### status(code)
+### <a name="//apple_ref/cpp/Method/res.status" class="dashAnchor"><span class="dash method">res.status(code)</a>res.status(code)
 
 Sets the response statusCode.
 
     res.status(201);
 
-### send([status], body)
+### <a name="//apple_ref/cpp/Method/res.send" class="dashAnchor"><span class="dash method">res.send([status], body)</a>res.send([status], body)
 
 You can use `send()` to wrap up all the usual `writeHead()`,
 `write()`, `end()` calls on the HTTP API of node.  You can pass send
@@ -1520,8 +1541,8 @@ that.
     res.send(201, {hello: 'world'});
     res.send(new BadRequestError('meh'));
 
-### redirect(status, url, next)
-### redirect([url | options], next)
+### <a name="//apple_ref/cpp/Method/res.redirect" class="dashAnchor"><span class="dash method">res.redirect(status, url, next)</a>res.redirect(status, url, next)
+### res.redirect([url | options], next)
 
 A convenience method for 301/302 redirects. Using this method will
 tell restify to stop execution of your handler chain. You can also
@@ -1541,7 +1562,8 @@ use an options object. `next` is required.
       }
     }, next);  // => redirects to 301 https://www.foo.com/bar?a=1
 
-### json([status], body)
+
+### <a name="//apple_ref/cpp/Method/res.json" class="dashAnchor"><span class="dash method">res.json([status], body)</a>res.json([status], body)
 
 Short-hand for:
 
@@ -1551,16 +1573,16 @@ Short-hand for:
 ### Properties
 
 ||**Name**||**Type**||**Description**||
-||code||Number||HTTP status code||
-||contentLength||Number||short hand for the header content-length||
-||contentType||String||short hand for the header content-type||
-||headers||Object||response headers||
-||id||String||A unique request id (x-request-id)||
+||<a name="//apple_ref/cpp/Property/res.code" class="dashAnchor"><span class="dash property">res.code</span></a>code||Number||HTTP status code||
+||<a name="//apple_ref/cpp/Property/res.contentLength" class="dashAnchor"><span class="dash property">res.contentLength</span></a>contentLength||Number||short hand for the header content-length||
+||<a name="//apple_ref/cpp/Property/res.contentType" class="dashAnchor"><span class="dash property">res.contentType</span></a>contentType||String||short hand for the header content-type||
+||<a name="//apple_ref/cpp/Property/res.headers" class="dashAnchor"><span class="dash property">res.headers</span></a>headers||Object||response headers||
+||<a name="//apple_ref/cpp/Property/res.id" class="dashAnchor"><span class="dash property">res.id</span></a>id||String||A unique request id (x-request-id)||
 
 ### Setting the default headers
 
 You can change what headers restify sends by default by setting the
-top-level property `defaultResponseHeaders`.  This should be a
+top-level property <a name="//apple_ref/cpp/Function/restify.defaultResponseHeaders" class="dashAnchor"><span class="dash function">restify.defaultResponseHeaders()</span>`defaultResponseHeaders`</a>.  This should be a
 function that takes one argument `data`, which is the already
 serialized response body.  `data` can be either a String or Buffer (or
 null).  The `this` object will be the response itself.
@@ -1836,6 +1858,7 @@ needs to attach a cryptographic signature of selected outgoing headers.  If
 provided, this callback will be invoked with a single parameter: the outgoing
 `http.ClientRequest` object.
 
+<span class="dash object">jsonClient</span>
 ## JsonClient
 
 The JSON Client is the highest-level client bundled with restify; it
@@ -1855,7 +1878,7 @@ restify HTTP errors).  If `obj` looks like a `RestError`:
 then `err` gets "upconverted" into a `RestError` for you.  Otherwise
 it will be an `HttpError`.
 
-### createJsonClient(options)
+### <a name="//apple_ref/cpp/Function/restify.createJsonClient" class="dashAnchor"><span class="dash function">restify.createJsonClient(options)</span>createJsonClient(options)</a>
 
     var client = restify.createJsonClient({
       url: 'https://api.us-east-1.joyent.com',
@@ -1878,7 +1901,7 @@ Options:
 ||userAgent||String||user-agent string to use; restify inserts one, but you can override it||
 ||version||String||semver string to set the accept-version||
 
-### get(path, callback)
+### <a name="//apple_ref/cpp/Method/jsonClient.get" class="dashAnchor"><span class="dash method">jsonClient.get(path, callback)</a>client.get(path, callback)
 
 Performs an HTTP get; if no payload was returned, `obj` defaults to
 `{}` for you (so you don't get a bunch of null pointer errors).
@@ -1888,7 +1911,7 @@ Performs an HTTP get; if no payload was returned, `obj` defaults to
       console.log('%j', obj);
     });
 
-### head(path, callback)
+### <a name="//apple_ref/cpp/Method/jsonClient.head" class="dashAnchor"><span class="dash method">jsonClient.head(path, callback)</a>client.head(path, callback)
 
 Just like `get`, but without `obj`:
 
@@ -1897,7 +1920,7 @@ Just like `get`, but without `obj`:
       console.log('%d -> %j', res.statusCode, res.headers);
     });
 
-### post(path, object, callback)
+### <a name="//apple_ref/cpp/Method/jsonClient.post" class="dashAnchor"><span class="dash method">jsonClient.post(path, object, callback)</a>client.post(path, object, callback)
 
 Takes a complete object to serialize and send to the server.
 
@@ -1907,7 +1930,7 @@ Takes a complete object to serialize and send to the server.
       console.log('%j', obj);
     });
 
-### put(path, object, callback)
+### <a name="//apple_ref/cpp/Method/jsonClient.put" class="dashAnchor"><span class="dash method">jsonClient.put(path, object, callback)</a>client.put(path, object, callback)
 
 Just like `post`:
 
@@ -1917,7 +1940,7 @@ Just like `post`:
       console.log('%j', obj);
     });
 
-### del(path, callback)
+### <a name="//apple_ref/cpp/Method/jsonClient.del" class="dashAnchor"><span class="dash method">jsonClient.del(path, callback)</a>client.del(path, callback)
 
 `del` doesn't take content, since you know, it should't:
 
@@ -1926,6 +1949,7 @@ Just like `post`:
       console.log('%d -> %j', res.statusCode, res.headers);
     });
 
+<span class="dash object">stringClient</span>
 ## StringClient
 
 `StringClient` is what `JsonClient` is built on, and provides a base
@@ -1938,13 +1962,13 @@ the source for `JsonClient`. Effectively, you extend it, and set the
 appropriate options in the constructor and implement a `write` (for
 put/post) and `parse` method (for all HTTP bodies), and that's it.
 
-### createStringClient(options)
+### <a name="//apple_ref/cpp/Function/restify.createStringClient" class="dashAnchor"><span class="dash function">restify.createStringClient(options)</span>restify.createStringClient(options)</a>
 
     var client = restify.createStringClient({
       url: 'https://example.com'
     })
 
-### get(path, callback)
+### <a name="//apple_ref/cpp/Callback/stringClient.get" class="dashAnchor"><span class="dash method">stringClient.get(path, callback)</span>get(path, callback)</a>
 
 Performs an HTTP get; if no payload was returned, `data` defaults to
 `''` for you (so you don't get a bunch of null pointer errors).
@@ -1954,7 +1978,7 @@ Performs an HTTP get; if no payload was returned, `data` defaults to
       console.log('%s', data);
     });
 
-### head(path, callback)
+### <a name="//apple_ref/cpp/Callback/stringClient.head" class="dashAnchor"><span class="dash method">stringClient.head(path, callback)</span>head(path, callback)</a>
 
 Just like `get`, but without `data`:
 
@@ -1963,7 +1987,7 @@ Just like `get`, but without `data`:
       console.log('%d -> %j', res.statusCode, res.headers);
     });
 
-### post(path, object, callback)
+### <a name="//apple_ref/cpp/Callback/stringClient.post" class="dashAnchor"><span class="dash method">stringClient.post(path, object, callback)</span>post(path, object, callback)</a>
 
 Takes a complete object to serialize and send to the server.
 
@@ -1973,7 +1997,7 @@ Takes a complete object to serialize and send to the server.
       console.log('%s', data);
     });
 
-### put(path, object, callback)
+### <a name="//apple_ref/cpp/Callback/stringClient.put" class="dashAnchor"><span class="dash method">stringClient.put(path, object, callback)</span>put(path, object, callback)</a>
 
 Just like `post`:
 
@@ -1983,7 +2007,7 @@ Just like `post`:
       console.log('%s', data);
     });
 
-### del(path, callback)
+### <a name="//apple_ref/cpp/Callback/stringClient.del" class="dashAnchor"><span class="dash method">stringClient.del(path, callback)</span>del(path, callback)</a>
 
 `del` doesn't take content, since you know, it should't:
 
@@ -1992,6 +2016,7 @@ Just like `post`:
       console.log('%d -> %j', res.statusCode, res.headers);
     });
 
+<span class="dash object">httpClient</span>
 ## HttpClient
 
 `HttpClient` is the lowest-level client shipped in restify, and is
@@ -2001,6 +2026,7 @@ to stream with restify.  Note that the event below is unfortunately
 named `result` and not `response` (because
 [Event 'response'](http://nodejs.org/docs/latest/api/all.html#event_response_)
 is already used).
+<a name="//apple_ref/cpp/Function/restify.createClient" class="dashAnchor"><span class="dash function">restify.createClient</span></a>
 
     client = restify.createClient({
       url: 'http://127.0.0.1'
@@ -2053,7 +2079,7 @@ write data over those. Otherwise, all the same methods exist as
 One wishing to extend the `HttpClient` should look at the internals
 and note that `read` and `write` probably need to be overridden.
 
-### Proxy
+### <a name="//apple_ref/cpp/Guide/Proxy" class="dashAnchor"><span class="dash guide">Proxy</span>Proxy</a>
 
 There are several options for enabling a proxy for the
 http client. The following options are available to set a proxy url:
@@ -2091,7 +2117,7 @@ Don't proxy requests to multiple IPs
 the proxy configuration or NO_PROXY environment variable. DNS
 lookups are not performed to determine the IP address of a hostname.
 
-### basicAuth(username, password)
+### <a name="//apple_ref/cpp/Method/client.basicAuth" class="dashAnchor"><span class="dash method">client.basicAuth(username, password)</a>client.basicAuth(username, password)
 
 Since it hasn't been mentioned yet, this convenience method (available
 on all clients), just sets the `Authorization` header for all HTTP requests:
